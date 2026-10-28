@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="es"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#080b18">
+<meta name="description" content="Directorio cyberpunk de comandos del bot, con buscador y categorías.">
+<title>Templo Aikas</title>
+<style>
+:root{--bg:#070914;--panel:rgba(16,21,43,.86);--line:rgba(111,132,255,.22);--cyan:#53efff;--violet:#a78bfa;--text:#edf2ff;--muted:#a1aac8;--pink:#ff65d8}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse at 10% 0%,rgba(33,88,190,.22),transparent 34%),radial-gradient(ellipse at 90% 12%,rgba(129,51,211,.22),transparent 32%),var(--bg);color:var(--text);font:15px/1.55 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;min-height:100vh}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.17;background-image:linear-gradient(rgba(83,239,255,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(83,239,255,.08) 1px,transparent 1px);background-size:42px 42px;mask-image:linear-gradient(to bottom,#000,transparent 85%)}
+a{color:inherit;text-decoration:none}.wrap{width:min(1180px,calc(100% - 32px));margin:auto}.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:22px 0;border-bottom:1px solid var(--line)}.brand{display:flex;align-items:center;gap:12px;font-weight:850;letter-spacing:.12em}.logo{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;color:var(--cyan);font-size:24px;border:1px solid rgba(83,239,255,.5);background:linear-gradient(145deg,rgba(83,239,255,.17),rgba(167,139,250,.15));box-shadow:0 0 26px rgba(83,239,255,.12)}.brand small{display:block;color:var(--muted);font-size:10px;letter-spacing:.22em;font-weight:600}.nav{display:flex;gap:20px;color:var(--muted);font-size:13px}.nav a:hover{color:var(--cyan)}.status{display:inline-flex;align-items:center;gap:8px;padding:7px 11px;border:1px solid rgba(83,239,255,.24);border-radius:999px;background:rgba(83,239,255,.06);font-size:11px;letter-spacing:.12em;color:#aafaff}.dot{width:7px;height:7px;border-radius:50%;background:#50f5b8;box-shadow:0 0 12px #50f5b8}
+.hero{padding:66px 0 36px;display:grid;grid-template-columns:1.4fr .6fr;gap:32px;align-items:center}.eyebrow{font-size:11px;letter-spacing:.24em;color:var(--cyan);font-weight:800}.hero h1{font-size:clamp(36px,6vw,68px);line-height:1.02;letter-spacing:-.055em;margin:14px 0 18px}.gradient{background:linear-gradient(90deg,var(--cyan),#9da7ff 48%,var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent}.hero p{color:var(--muted);max-width:650px;margin:0 0 22px}.hero-panel{padding:22px;border-radius:22px;border:1px solid var(--line);background:linear-gradient(145deg,rgba(19,28,59,.9),rgba(12,14,32,.75));box-shadow:0 20px 80px rgba(0,0,0,.22)}.panel-label{font-size:10px;color:var(--muted);letter-spacing:.2em}.big-number{font-size:48px;line-height:1.2;font-weight:850;margin:8px 0;background:linear-gradient(90deg,var(--cyan),var(--violet));-webkit-background-clip:text;color:transparent}.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}.stat{padding:12px;border:1px solid var(--line);border-radius:13px;background:rgba(5,8,20,.45)}.stat b{display:block;font-size:19px}.stat span{font-size:11px;color:var(--muted)}
+.controls{padding:20px;border:1px solid var(--line);border-radius:20px;background:var(--panel);backdrop-filter:blur(18px)}.searchrow{display:flex;gap:12px;align-items:center}.searchbox{display:flex;align-items:center;gap:10px;flex:1;background:#080c1c;border:1px solid rgba(133,153,255,.25);border-radius:13px;padding:0 14px}.searchbox:focus-within{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(83,239,255,.08)}.searchbox span{color:var(--cyan);font-size:19px}.searchbox input{width:100%;padding:15px 0;background:transparent;border:0;outline:0;color:var(--text);font:inherit}.kbd{white-space:nowrap;color:#7782a6;font-size:11px;border:1px solid #303856;border-radius:6px;padding:3px 6px}.filters{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}.filter{cursor:pointer;color:var(--muted);background:rgba(7,10,25,.8);border:1px solid var(--line);border-radius:999px;padding:8px 13px;font:inherit;font-size:12px;transition:.18s}.filter:hover,.filter.active{color:#07111b;background:var(--cyan);border-color:var(--cyan);box-shadow:0 0 20px rgba(83,239,255,.14)}
+.sectionhead{display:flex;justify-content:space-between;align-items:end;gap:15px;margin:32px 0 16px}.sectionhead h2{margin:0;font-size:23px;letter-spacing:-.025em}.sectionhead p{margin:4px 0 0;color:var(--muted);font-size:12px}.count{font-size:12px;color:var(--cyan);white-space:nowrap}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}.cmd{min-width:0;padding:18px;border:1px solid var(--line);border-radius:17px;background:linear-gradient(145deg,rgba(17,23,48,.88),rgba(10,13,29,.9));transition:transform .18s,border-color .18s,box-shadow .18s}.cmd:hover{transform:translateY(-3px);border-color:rgba(83,239,255,.5);box-shadow:0 12px 35px rgba(0,0,0,.22)}.cmdtop{display:flex;align-items:center;justify-content:space-between;gap:10px}.cmdicon{width:36px;height:36px;display:grid;place-items:center;border-radius:11px;color:var(--cyan);background:rgba(83,239,255,.08);border:1px solid rgba(83,239,255,.18);font-size:19px}.tag{font-size:10px;color:#c7baff;border:1px solid rgba(167,139,250,.24);background:rgba(167,139,250,.08);padding:4px 8px;border-radius:999px}.cmd h3{font-size:16px;margin:15px 0 7px}.aliases{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 10px}.aliases code{font:600 11px ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--cyan);background:rgba(83,239,255,.07);border:1px solid rgba(83,239,255,.15);padding:4px 7px;border-radius:7px}.arg{font-size:10px;color:#f4b8eb;border:1px solid rgba(255,101,216,.22);background:rgba(255,101,216,.07);padding:4px 7px;border-radius:7px}.cmd p{margin:0;color:var(--muted);font-size:12px}.note{margin:20px 0 0;padding:14px 16px;border-left:2px solid var(--violet);background:rgba(167,139,250,.06);color:var(--muted);font-size:12px}.empty{display:none;text-align:center;color:var(--muted);padding:42px 10px}.footer{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;padding:30px 0 38px;margin-top:40px;border-top:1px solid var(--line);color:var(--muted);font-size:11px}.footer strong{color:var(--text);letter-spacing:.13em}
+@media(max-width:850px){.hero{grid-template-columns:1fr;padding-top:48px}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.nav{gap:12px}}@media(max-width:560px){.wrap{width:min(100% - 22px,1180px)}.nav{display:none}.topbar{padding:15px 0}.hero{padding:38px 0 24px;gap:20px}.hero h1{font-size:42px}.hero-panel{padding:17px}.big-number{font-size:39px}.controls{padding:13px}.searchrow{gap:6px}.kbd{display:none}.grid{grid-template-columns:1fr}.sectionhead{align-items:start;flex-direction:column}.cmd{padding:16px}.footer{padding-bottom:24px}}
+
+.terms-button{display:inline-flex;align-items:center;justify-content:center;margin:12px 0 0 8px;padding:10px 15px;border:1px solid rgba(83,239,255,.48);border-radius:999px;background:linear-gradient(120deg,rgba(83,239,255,.13),rgba(167,139,250,.18));color:var(--text);font:700 12px/1.4 system-ui,sans-serif;cursor:pointer;transition:.18s}
+.terms-button:hover{border-color:var(--cyan);box-shadow:0 0 22px rgba(83,239,255,.16);transform:translateY(-1px)}
+.terms-modal{position:fixed;inset:0;z-index:1000;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(2,4,14,.82);backdrop-filter:blur(8px)}
+.terms-modal.open{display:flex}
+.terms-dialog{position:relative;width:min(850px,100%);max-height:min(86vh,900px);overflow:auto;padding:clamp(20px,4vw,34px);border:1px solid rgba(83,239,255,.35);border-radius:22px;background:linear-gradient(145deg,#10152b,#090c1c);box-shadow:0 24px 90px rgba(0,0,0,.5)}
+.terms-dialog h2{margin:0 48px 8px 0;font-size:clamp(23px,4vw,32px);line-height:1.2}
+.terms-dialog .terms-intro{color:var(--muted);margin:0 0 22px}
+.terms-dialog h3{margin:22px 0 7px;color:var(--cyan);font-size:16px}
+.terms-dialog p,.terms-dialog li{color:#d4dcf5;font-size:13px}
+.terms-dialog ul{padding-left:22px}
+.terms-close{position:sticky;float:right;top:0;z-index:2;width:38px;height:38px;border:1px solid var(--line);border-radius:11px;background:#0a1024;color:var(--text);font-size:22px;cursor:pointer}
+.terms-close:hover{border-color:var(--cyan);color:var(--cyan)}
+.terms-footer{margin-top:24px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:12px}
+@media(max-width:560px){.terms-button{margin-left:0}.terms-modal{padding:9px}.terms-dialog{max-height:92vh;border-radius:16px}}
+
+</style></head><body>
+<header class="wrap topbar"><a class="brand" href="#"><span class="logo">✦</span><span>Templo<span style="color:var(--cyan)">/</span>Aikas<small>Creado por Nova Zero MD</small></span></a><nav class="nav"><a href="#commands">Comandos</a><a href="#about">Información</a></nav><span class="status"><i class="dot"></i> DIRECTORIO ACTIVO</span></header>
+<main class="wrap"><section class="hero"><div><div class="eyebrow">/// Comandos de Isekai BOT</div><h1>Isekai.<br><span class="gradient">Todos sus comandos.</span></h1><p>Bienvenido a Isekai, un bot de WhatsApp administrado por Legión Aikas. Al utilizar nuestros servicios, aceptas cumplir los siguientes términos y condiciones. Nuestro objetivo es ofrecer una experiencia segura, responsable y divertida para toda nuestra comunidad.</p><a class="status" href="#commands">⌕ &nbsp; EXPLORAR DIRECTORIO</a>
+<button type="button" class="terms-button" id="openTerms" aria-haspopup="dialog" aria-controls="termsModal">
+  Términos y condiciones
+</button>
+</div><aside class="hero-panel"><div class="panel-label">COMANDOS EN ESTE DIRECTORIO</div><div class="big-number" id="total">0</div><div style="color:var(--muted);font-size:12px">Comandos hechos para Isekai.</div><div class="stats"><div class="stat"><b id="categories">0</b><span>CATEGORÍAS</span></div><div class="stat"><b>ES</b><span>IDIOMA</span></div></div></aside></section>
+<section id="commands"><div class="controls"><div class="searchrow"><label class="searchbox"><span>⌕</span><input id="search" type="search" placeholder="Buscar comandos disponibles..." autocomplete="off" aria-label="Buscar comandos"></label><span class="kbd">Ctrl K</span></div><div class="filters" id="filters"><button class="filter active" data-cat="Todos">Todos</button><button class="filter" data-cat="Economía">Economía</button><button class="filter" data-cat="Minijuegos">Minijuegos</button><button class="filter" data-cat="Perfil">Perfil</button><button class="filter" data-cat="Grupo">Grupo</button><button class="filter" data-cat="Rankings">Rankings</button><button class="filter" data-cat="Descargas">Descargas</button><button class="filter" data-cat="Infobot">Infobot</button><button class="filter" data-cat="Útiles">Útiles</button><button class="filter" data-cat="Config">Config</button></div></div>
+<div class="sectionhead"><div><h2>Directorio de comandos</h2><p>Usar los comandos con el prefijo indicado. (# o /)</p></div><div class="count" id="resultCount">0 comandos visibles</div></div>
+<div class="grid" id="grid"><article class="cmd" data-cat="Economía" data-search="Reclamar daily Economía Reclama tu recompensa diaria. daily diario">
+          <div class="cmdtop"><div class="cmdicon">₿</div><span class="tag">Economía</span></div>
+          <h3>Reclamar daily</h3><div class="aliases"><code>daily</code><code>diario</code></div><p>Reclama tu recompensa diaria.</p>
+        </article>
+<article class="cmd" data-cat="Economía" data-search="Balance de dinero Economía Consulta tu saldo de monedas. bal coins dinero">
+          <div class="cmdtop"><div class="cmdicon">₿</div><span class="tag">Economía</span></div>
+          <h3>Balance de dinero</h3><div class="aliases"><code>bal</code><code>coins</code><code>dinero</code></div><p>Consulta tu saldo de monedas.</p>
+        </article>
+<article class="cmd" data-cat="Economía" data-search="Apostar cara o cruz Economía Apuesta una cantidad al azar entre cara y cruz. cf caracruz cantidad">
+          <div class="cmdtop"><div class="cmdicon">₿</div><span class="tag">Economía</span></div>
+          <h3>Apostar cara o cruz</h3><div class="aliases"><code>cf</code><code>caracruz</code><span class="arg">+ cantidad</span></div><p>Apuesta una cantidad al azar entre cara y cruz.</p>
+        </article>
+<article class="cmd" data-cat="Economía" data-search="Apostar La Tinka Economía Participa en la apuesta de La Tinka. tinka tk cantidad">
+          <div class="cmdtop"><div class="cmdicon">₿</div><span class="tag">Economía</span></div>
+          <h3>Apostar La Tinka</h3><div class="aliases"><code>tinka</code><code>tk</code><span class="arg">+ cantidad</span></div><p>Participa en la apuesta de La Tinka.</p>
+        </article>
+<article class="cmd" data-cat="Economía" data-search="Trabajar Economía Trabaja para conseguir monedas. work trabajar w">
+          <div class="cmdtop"><div class="cmdicon">₿</div><span class="tag">Economía</span></div>
+          <h3>Trabajar</h3><div class="aliases"><code>work</code><code>trabajar</code><code>w</code></div><p>Trabaja para conseguir monedas.</p>
+        </article>
+<article class="cmd" data-cat="Economía" data-search="Prostituirse Economía Actividad de economía y rol. slut prostituirse">
+          <div class="cmdtop"><div class="cmdicon">₿</div><span class="tag">Economía</span></div>
+          <h3>Prostituirse</h3><div class="aliases"><code>slut</code><code>prostituirse</code></div><p>Actividad de economía y rol.</p>
+        </article>
+<article class="cmd" data-cat="Economía" data-search="Hacer crimen Economía Intenta conseguir dinero con una actividad criminal. crime criminal">
+          <div class="cmdtop"><div class="cmdicon">₿</div><span class="tag">Economía</span></div>
+          <h3>Hacer crimen</h3><div class="aliases"><code>crime</code><code>criminal</code></div><p>Intenta conseguir dinero con una actividad criminal.</p>
+        </article>
+<article class="cmd" data-cat="Economía" data-search="Robar Economía Intenta robar monedas a otro usuario. robar rob">
+          <div class="cmdtop"><div class="cmdicon">₿</div><span class="tag">Economía</span></div>
+          <h3>Robar</h3><div class="aliases"><code>robar</code><code>rob</code></div><p>Intenta robar monedas a otro usuario.</p>
+        </article>
+<article class="cmd" data-cat="Economía" data-search="Depositar dinero al banco Economía Guarda dinero en el banco. depositar deposito d cantidad">
+          <div class="cmdtop"><div class="cmdicon">₿</div><span class="tag">Economía</span></div>
+          <h3>Depositar dinero al banco</h3><div class="aliases"><code>depositar</code><code>deposito</code><code>d</code><span class="arg">+ cantidad</span></div><p>Guarda dinero en el banco.</p>
+        </article>
+<article class="cmd" data-cat="Economía" data-search="Retirar dinero del banco Economía Retira monedas del banco. retirar ret cantidad">
+          <div class="cmdtop"><div class="cmdicon">₿</div><span class="tag">Economía</span></div>
+          <h3>Retirar dinero del banco</h3><div class="aliases"><code>retirar</code><code>ret</code><span class="arg">+ cantidad</span></div><p>Retira monedas del banco.</p>
+        </article>
+<article class="cmd" data-cat="Economía" data-search="Transferir dinero Economía Transfiere monedas a otro usuario. pay enviar cantidad">
+          <div class="cmdtop"><div class="cmdicon">₿</div><span class="tag">Economía</span></div>
+          <h3>Transferir dinero</h3><div class="aliases"><code>pay</code><code>enviar</code><span class="arg">+ cantidad</span></div><p>Transfiere monedas a otro usuario.</p>
+        </article>
+<article class="cmd" data-cat="Minijuegos" data-search="Mostrar personajes al azar Minijuegos Muestra personajes aleatorios. rollwaifu rw">
+          <div class="cmdtop"><div class="cmdicon">✦</div><span class="tag">Minijuegos</span></div>
+          <h3>Mostrar personajes al azar</h3><div class="aliases"><code>rollwaifu</code><code>rw</code></div><p>Muestra personajes aleatorios.</p>
+        </article>
+<article class="cmd" data-cat="Minijuegos" data-search="Capturar personaje Minijuegos Intenta capturar un personaje. claim c">
+          <div class="cmdtop"><div class="cmdicon">✦</div><span class="tag">Minijuegos</span></div>
+          <h3>Capturar personaje</h3><div class="aliases"><code>claim</code><code>c</code></div><p>Intenta capturar un personaje.</p>
+        </article>
+<article class="cmd" data-cat="Minijuegos" data-search="Ver tus personajes Minijuegos Muestra tu colección de personajes. harem waifus personajes">
+          <div class="cmdtop"><div class="cmdicon">✦</div><span class="tag">Minijuegos</span></div>
+          <h3>Ver tus personajes</h3><div class="aliases"><code>harem</code><code>waifus</code><code>personajes</code></div><p>Muestra tu colección de personajes.</p>
+        </article>
+<article class="cmd" data-cat="Minijuegos" data-search="Información del personaje Minijuegos Consulta información de un personaje. winfo waifuinfo personaje">
+          <div class="cmdtop"><div class="cmdicon">✦</div><span class="tag">Minijuegos</span></div>
+          <h3>Información del personaje</h3><div class="aliases"><code>winfo</code><code>waifuinfo</code><span class="arg">+ personaje</span></div><p>Consulta información de un personaje.</p>
+        </article>
+<article class="cmd" data-cat="Minijuegos" data-search="Eliminar personaje capturado Minijuegos Elimina un personaje de tu colección. delrw delchar personaje">
+          <div class="cmdtop"><div class="cmdicon">✦</div><span class="tag">Minijuegos</span></div>
+          <h3>Eliminar personaje capturado</h3><div class="aliases"><code>delrw</code><code>delchar</code><span class="arg">+ personaje</span></div><p>Elimina un personaje de tu colección.</p>
+        </article>
+<article class="cmd" data-cat="Minijuegos" data-search="Vender personajes Minijuegos Pone a la venta un personaje. sellrw venderwaifu personaje">
+          <div class="cmdtop"><div class="cmdicon">✦</div><span class="tag">Minijuegos</span></div>
+          <h3>Vender personajes</h3><div class="aliases"><code>sellrw</code><code>venderwaifu</code><span class="arg">+ personaje</span></div><p>Pone a la venta un personaje.</p>
+        </article>
+<article class="cmd" data-cat="Minijuegos" data-search="Comprar personajes Minijuegos Compra un personaje por su nombre. buyrw comprarwaifu nombre del personaje">
+          <div class="cmdtop"><div class="cmdicon">✦</div><span class="tag">Minijuegos</span></div>
+          <h3>Comprar personajes</h3><div class="aliases"><code>buyrw</code><code>comprarwaifu</code><span class="arg">+ nombre del personaje</span></div><p>Compra un personaje por su nombre.</p>
+        </article>
+<article class="cmd" data-cat="Minijuegos" data-search="Retirar personaje vendido Minijuegos Retira un personaje de la venta. rsell retirarventa personaje">
+          <div class="cmdtop"><div class="cmdicon">✦</div><span class="tag">Minijuegos</span></div>
+          <h3>Retirar personaje vendido</h3><div class="aliases"><code>rsell</code><code>retirarventa</code><span class="arg">+ personaje</span></div><p>Retira un personaje de la venta.</p>
+        </article>
+<article class="cmd" data-cat="Minijuegos" data-search="Aumentar poder de personajes Minijuegos Vota para aumentar el poder del personaje. votar vote nombre del personaje">
+          <div class="cmdtop"><div class="cmdicon">✦</div><span class="tag">Minijuegos</span></div>
+          <h3>Aumentar poder de personajes</h3><div class="aliases"><code>votar</code><code>vote</code><span class="arg">+ nombre del personaje</span></div><p>Vota para aumentar el poder del personaje.</p>
+        </article>
+<article class="cmd" data-cat="Minijuegos" data-search="Usar mascota para campañas Minijuegos Elige un personaje para las campañas. usar elegir nombre del personaje">
+          <div class="cmdtop"><div class="cmdicon">✦</div><span class="tag">Minijuegos</span></div>
+          <h3>Usar mascota para campañas</h3><div class="aliases"><code>usar</code><code>elegir</code><span class="arg">+ nombre del personaje</span></div><p>Elige un personaje para las campañas.</p>
+        </article>
+<article class="cmd" data-cat="Minijuegos" data-search="Cofre de equipamiento Minijuegos Abre un cofre por rareza. cofre raro / épico / legendario / mítico">
+          <div class="cmdtop"><div class="cmdicon">✦</div><span class="tag">Minijuegos</span></div>
+          <h3>Cofre de equipamiento</h3><div class="aliases"><code>cofre</code><span class="arg">+ raro / épico / legendario / mítico</span></div><p>Abre un cofre por rareza.</p>
+        </article>
+<article class="cmd" data-cat="Minijuegos" data-search="Refinar equipamiento Minijuegos Refina un equipamiento. refinar nombre del equipamiento">
+          <div class="cmdtop"><div class="cmdicon">✦</div><span class="tag">Minijuegos</span></div>
+          <h3>Refinar equipamiento</h3><div class="aliases"><code>refinar</code><span class="arg">+ nombre del equipamiento</span></div><p>Refina un equipamiento.</p>
+        </article>
+<article class="cmd" data-cat="Minijuegos" data-search="Batallar contra otro usuario Minijuegos Reta a otro usuario a una batalla. pvp retar citar mensaje">
+          <div class="cmdtop"><div class="cmdicon">✦</div><span class="tag">Minijuegos</span></div>
+          <h3>Batallar contra otro usuario</h3><div class="aliases"><code>pvp</code><code>retar</code><span class="arg">+ citar mensaje</span></div><p>Reta a otro usuario a una batalla.</p>
+        </article>
+<article class="cmd" data-cat="Minijuegos" data-search="Aceptar batalla Minijuegos Acepta una batalla citando el mensaje del bot. pelear citar mensaje del bot">
+          <div class="cmdtop"><div class="cmdicon">✦</div><span class="tag">Minijuegos</span></div>
+          <h3>Aceptar batalla</h3><div class="aliases"><code>pelear</code><span class="arg">+ citar mensaje del bot</span></div><p>Acepta una batalla citando el mensaje del bot.</p>
+        </article>
+<article class="cmd" data-cat="Minijuegos" data-search="Calabozos subterráneos Minijuegos Entra a los calabozos. calabozo cala">
+          <div class="cmdtop"><div class="cmdicon">✦</div><span class="tag">Minijuegos</span></div>
+          <h3>Calabozos subterráneos</h3><div class="aliases"><code>calabozo</code><code>cala</code></div><p>Entra a los calabozos.</p>
+        </article>
+<article class="cmd" data-cat="Minijuegos" data-search="Recuperar vida Minijuegos Recupera vida de tu personaje. regenerar reg recuperar">
+          <div class="cmdtop"><div class="cmdicon">✦</div><span class="tag">Minijuegos</span></div>
+          <h3>Recuperar vida</h3><div class="aliases"><code>regenerar</code><code>reg</code><code>recuperar</code></div><p>Recupera vida de tu personaje.</p>
+        </article>
+<article class="cmd" data-cat="Minijuegos" data-search="Ver tienda Minijuegos Consulta los artículos disponibles. tienda marketing">
+          <div class="cmdtop"><div class="cmdicon">✦</div><span class="tag">Minijuegos</span></div>
+          <h3>Ver tienda</h3><div class="aliases"><code>tienda</code><code>marketing</code></div><p>Consulta los artículos disponibles.</p>
+        </article>
+<article class="cmd" data-cat="Perfil" data-search="Ver perfil Perfil Muestra tu perfil. profile perfil">
+          <div class="cmdtop"><div class="cmdicon">◉</div><span class="tag">Perfil</span></div>
+          <h3>Ver perfil</h3><div class="aliases"><code>profile</code><code>perfil</code></div><p>Muestra tu perfil.</p>
+        </article>
+<article class="cmd" data-cat="Perfil" data-search="Poner descripción Perfil Define la descripción de tu perfil. desc descripcion texto">
+          <div class="cmdtop"><div class="cmdicon">◉</div><span class="tag">Perfil</span></div>
+          <h3>Poner descripción</h3><div class="aliases"><code>desc</code><code>descripcion</code><span class="arg">+ texto</span></div><p>Define la descripción de tu perfil.</p>
+        </article>
+<article class="cmd" data-cat="Perfil" data-search="Elegir edad Perfil Configura tu edad. age edad número">
+          <div class="cmdtop"><div class="cmdicon">◉</div><span class="tag">Perfil</span></div>
+          <h3>Elegir edad</h3><div class="aliases"><code>age</code><code>edad</code><span class="arg">+ número</span></div><p>Configura tu edad.</p>
+        </article>
+<article class="cmd" data-cat="Perfil" data-search="Elegir fecha Perfil Configura tu fecha. fecha date DD MM AA">
+          <div class="cmdtop"><div class="cmdicon">◉</div><span class="tag">Perfil</span></div>
+          <h3>Elegir fecha</h3><div class="aliases"><code>fecha</code><code>date</code><span class="arg">+ DD MM AA</span></div><p>Configura tu fecha.</p>
+        </article>
+<article class="cmd" data-cat="Perfil" data-search="Elegir género Perfil Configura tu género. genero genre texto">
+          <div class="cmdtop"><div class="cmdicon">◉</div><span class="tag">Perfil</span></div>
+          <h3>Elegir género</h3><div class="aliases"><code>genero</code><code>genre</code><span class="arg">+ texto</span></div><p>Configura tu género.</p>
+        </article>
+<article class="cmd" data-cat="Perfil" data-search="Proponer matrimonio Perfil Propón matrimonio citando un mensaje. marry citar mensaje">
+          <div class="cmdtop"><div class="cmdicon">◉</div><span class="tag">Perfil</span></div>
+          <h3>Proponer matrimonio</h3><div class="aliases"><code>marry</code><span class="arg">+ citar mensaje</span></div><p>Propón matrimonio citando un mensaje.</p>
+        </article>
+<article class="cmd" data-cat="Perfil" data-search="Aceptar matrimonio Perfil Acepta una propuesta citando el mensaje del bot. aceptar citar mensaje del bot">
+          <div class="cmdtop"><div class="cmdicon">◉</div><span class="tag">Perfil</span></div>
+          <h3>Aceptar matrimonio</h3><div class="aliases"><code>aceptar</code><span class="arg">+ citar mensaje del bot</span></div><p>Acepta una propuesta citando el mensaje del bot.</p>
+        </article>
+<article class="cmd" data-cat="Perfil" data-search="Divorciarte Perfil Termina el compromiso. divorce divorcio">
+          <div class="cmdtop"><div class="cmdicon">◉</div><span class="tag">Perfil</span></div>
+          <h3>Divorciarte</h3><div class="aliases"><code>divorce</code><code>divorcio</code></div><p>Termina el compromiso.</p>
+        </article>
+<article class="cmd" data-cat="Perfil" data-search="Ver nivel Perfil Consulta tu nivel. lvl nivel level">
+          <div class="cmdtop"><div class="cmdicon">◉</div><span class="tag">Perfil</span></div>
+          <h3>Ver nivel</h3><div class="aliases"><code>lvl</code><code>nivel</code><code>level</code></div><p>Consulta tu nivel.</p>
+        </article>
+<article class="cmd" data-cat="Perfil" data-search="Perfil de mascota Perfil Muestra tu perfil de mascota. mascota pets">
+          <div class="cmdtop"><div class="cmdicon">◉</div><span class="tag">Perfil</span></div>
+          <h3>Perfil de mascota</h3><div class="aliases"><code>mascota</code><code>pets</code></div><p>Muestra tu perfil de mascota.</p>
+        </article>
+<article class="cmd" data-cat="Perfil" data-search="Ver rango Perfil Consulta tu rango. honor rango">
+          <div class="cmdtop"><div class="cmdicon">◉</div><span class="tag">Perfil</span></div>
+          <h3>Ver rango</h3><div class="aliases"><code>honor</code><code>rango</code></div><p>Consulta tu rango.</p>
+        </article>
+<article class="cmd" data-cat="Grupo" data-search="Información del grupo Grupo Muestra la información del grupo. infogrupo gp">
+          <div class="cmdtop"><div class="cmdicon">⌘</div><span class="tag">Grupo</span></div>
+          <h3>Información del grupo</h3><div class="aliases"><code>infogrupo</code><code>gp</code></div><p>Muestra la información del grupo.</p>
+        </article>
+<article class="cmd" data-cat="Grupo" data-search="Abrir grupo Grupo Permite que los miembros envíen mensajes. abrir open">
+          <div class="cmdtop"><div class="cmdicon">⌘</div><span class="tag">Grupo</span></div>
+          <h3>Abrir grupo</h3><div class="aliases"><code>abrir</code><code>open</code></div><p>Permite que los miembros envíen mensajes.</p>
+        </article>
+<article class="cmd" data-cat="Grupo" data-search="Cerrar grupo Grupo Restringe el envío de mensajes a administradores. cerrar close">
+          <div class="cmdtop"><div class="cmdicon">⌘</div><span class="tag">Grupo</span></div>
+          <h3>Cerrar grupo</h3><div class="aliases"><code>cerrar</code><code>close</code></div><p>Restringe el envío de mensajes a administradores.</p>
+        </article>
+<article class="cmd" data-cat="Grupo" data-search="Ver alertas Grupo Consulta la configuración de alertas. alertas warnset">
+          <div class="cmdtop"><div class="cmdicon">⌘</div><span class="tag">Grupo</span></div>
+          <h3>Ver alertas</h3><div class="aliases"><code>alertas</code><code>warnset</code></div><p>Consulta la configuración de alertas.</p>
+        </article>
+<article class="cmd" data-cat="Grupo" data-search="Alerta de bienvenida Grupo Activa o desactiva la bienvenida. welcome bienvenida on / off">
+          <div class="cmdtop"><div class="cmdicon">⌘</div><span class="tag">Grupo</span></div>
+          <h3>Alerta de bienvenida</h3><div class="aliases"><code>welcome</code><code>bienvenida</code><span class="arg">+ on / off</span></div><p>Activa o desactiva la bienvenida.</p>
+        </article>
+<article class="cmd" data-cat="Grupo" data-search="Alerta de despedida Grupo Activa o desactiva la despedida. bye despedida on / off">
+          <div class="cmdtop"><div class="cmdicon">⌘</div><span class="tag">Grupo</span></div>
+          <h3>Alerta de despedida</h3><div class="aliases"><code>bye</code><code>despedida</code><span class="arg">+ on / off</span></div><p>Activa o desactiva la despedida.</p>
+        </article>
+<article class="cmd" data-cat="Grupo" data-search="Cambiar imagen del grupo Grupo Cambia la imagen del grupo. setpp setimg">
+          <div class="cmdtop"><div class="cmdicon">⌘</div><span class="tag">Grupo</span></div>
+          <h3>Cambiar imagen del grupo</h3><div class="aliases"><code>setpp</code><code>setimg</code></div><p>Cambia la imagen del grupo.</p>
+        </article>
+<article class="cmd" data-cat="Grupo" data-search="Descripción del grupo Grupo Actualiza la descripción del grupo. descg descgroup texto">
+          <div class="cmdtop"><div class="cmdicon">⌘</div><span class="tag">Grupo</span></div>
+          <h3>Descripción del grupo</h3><div class="aliases"><code>descg</code><code>descgroup</code><span class="arg">+ texto</span></div><p>Actualiza la descripción del grupo.</p>
+        </article>
+<article class="cmd" data-cat="Grupo" data-search="Dar advertencia Grupo Advierte a un miembro. warn advertir @tag">
+          <div class="cmdtop"><div class="cmdicon">⌘</div><span class="tag">Grupo</span></div>
+          <h3>Dar advertencia</h3><div class="aliases"><code>warn</code><code>advertir</code><span class="arg">+ @tag</span></div><p>Advierte a un miembro.</p>
+        </article>
+<article class="cmd" data-cat="Grupo" data-search="Quitar advertencia Grupo Retira una advertencia. unwarn quitwarn @tag">
+          <div class="cmdtop"><div class="cmdicon">⌘</div><span class="tag">Grupo</span></div>
+          <h3>Quitar advertencia</h3><div class="aliases"><code>unwarn</code><code>quitwarn</code><span class="arg">+ @tag</span></div><p>Retira una advertencia.</p>
+        </article>
+<article class="cmd" data-cat="Grupo" data-search="Ver advertencias Grupo Consulta advertencias de un miembro. listwarn warns @tag">
+          <div class="cmdtop"><div class="cmdicon">⌘</div><span class="tag">Grupo</span></div>
+          <h3>Ver advertencias</h3><div class="aliases"><code>listwarn</code><code>warns</code><span class="arg">+ @tag</span></div><p>Consulta advertencias de un miembro.</p>
+        </article>
+<article class="cmd" data-cat="Grupo" data-search="Dar administrador Grupo Promueve a un miembro. promote ascender">
+          <div class="cmdtop"><div class="cmdicon">⌘</div><span class="tag">Grupo</span></div>
+          <h3>Dar administrador</h3><div class="aliases"><code>promote</code><code>ascender</code></div><p>Promueve a un miembro.</p>
+        </article>
+<article class="cmd" data-cat="Grupo" data-search="Quitar administrador Grupo Retira permisos de administrador. demote descender">
+          <div class="cmdtop"><div class="cmdicon">⌘</div><span class="tag">Grupo</span></div>
+          <h3>Quitar administrador</h3><div class="aliases"><code>demote</code><code>descender</code></div><p>Retira permisos de administrador.</p>
+        </article>
+<article class="cmd" data-cat="Grupo" data-search="Añadir usuario Grupo Añade un usuario por número. add añadir número">
+          <div class="cmdtop"><div class="cmdicon">⌘</div><span class="tag">Grupo</span></div>
+          <h3>Añadir usuario</h3><div class="aliases"><code>add</code><code>añadir</code><span class="arg">+ número</span></div><p>Añade un usuario por número.</p>
+        </article>
+<article class="cmd" data-cat="Grupo" data-search="Eliminar usuario Grupo Expulsa a un usuario. kick ban mensaje o número">
+          <div class="cmdtop"><div class="cmdicon">⌘</div><span class="tag">Grupo</span></div>
+          <h3>Eliminar usuario</h3><div class="aliases"><code>kick</code><code>ban</code><span class="arg">+ mensaje o número</span></div><p>Expulsa a un usuario.</p>
+        </article>
+<article class="cmd" data-cat="Grupo" data-search="Mensaje a todos Grupo Menciona a todos sin mostrar etiquetas. hidetag tagall texto">
+          <div class="cmdtop"><div class="cmdicon">⌘</div><span class="tag">Grupo</span></div>
+          <h3>Mensaje a todos</h3><div class="aliases"><code>hidetag</code><code>tagall</code><span class="arg">+ texto</span></div><p>Menciona a todos sin mostrar etiquetas.</p>
+        </article>
+<article class="cmd" data-cat="Grupo" data-search="Repetir mensaje Grupo Repite un texto. repeat repetir texto">
+          <div class="cmdtop"><div class="cmdicon">⌘</div><span class="tag">Grupo</span></div>
+          <h3>Repetir mensaje</h3><div class="aliases"><code>repeat</code><code>repetir</code><span class="arg">+ texto</span></div><p>Repite un texto.</p>
+        </article>
+<article class="cmd" data-cat="Grupo" data-search="Fijar comentario Grupo Fija un comentario. fijar comentario">
+          <div class="cmdtop"><div class="cmdicon">⌘</div><span class="tag">Grupo</span></div>
+          <h3>Fijar comentario</h3><div class="aliases"><code>fijar</code><span class="arg">+ comentario</span></div><p>Fija un comentario.</p>
+        </article>
+<article class="cmd" data-cat="Grupo" data-search="Desfijar comentario Grupo Desfija un comentario. desfijar comentario fijado">
+          <div class="cmdtop"><div class="cmdicon">⌘</div><span class="tag">Grupo</span></div>
+          <h3>Desfijar comentario</h3><div class="aliases"><code>desfijar</code><span class="arg">+ comentario fijado</span></div><p>Desfija un comentario.</p>
+        </article>
+<article class="cmd" data-cat="Grupo" data-search="Anti WhatsApp Grupo Configura la protección anti-enlaces de WhatsApp. antilink antiwhats on / off">
+          <div class="cmdtop"><div class="cmdicon">⌘</div><span class="tag">Grupo</span></div>
+          <h3>Anti WhatsApp</h3><div class="aliases"><code>antilink</code><code>antiwhats</code><span class="arg">+ on / off</span></div><p>Configura la protección anti-enlaces de WhatsApp.</p>
+        </article>
+<article class="cmd" data-cat="Grupo" data-search="Anti Instagram Grupo Configura la protección contra enlaces de Instagram. antinsta on / off">
+          <div class="cmdtop"><div class="cmdicon">⌘</div><span class="tag">Grupo</span></div>
+          <h3>Anti Instagram</h3><div class="aliases"><code>antinsta</code><span class="arg">+ on / off</span></div><p>Configura la protección contra enlaces de Instagram.</p>
+        </article>
+<article class="cmd" data-cat="Grupo" data-search="Anti TikTok Grupo Configura la protección contra enlaces de TikTok. antiktok on / off">
+          <div class="cmdtop"><div class="cmdicon">⌘</div><span class="tag">Grupo</span></div>
+          <h3>Anti TikTok</h3><div class="aliases"><code>antiktok</code><span class="arg">+ on / off</span></div><p>Configura la protección contra enlaces de TikTok.</p>
+        </article>
+<article class="cmd" data-cat="Grupo" data-search="Anti Facebook Grupo Configura la protección contra enlaces de Facebook. antifb antiface on / off">
+          <div class="cmdtop"><div class="cmdicon">⌘</div><span class="tag">Grupo</span></div>
+          <h3>Anti Facebook</h3><div class="aliases"><code>antifb</code><code>antiface</code><span class="arg">+ on / off</span></div><p>Configura la protección contra enlaces de Facebook.</p>
+        </article>
+<article class="cmd" data-cat="Grupo" data-search="Anti Telegram Grupo Configura la protección contra enlaces de Telegram. antitelegram antgm on / off">
+          <div class="cmdtop"><div class="cmdicon">⌘</div><span class="tag">Grupo</span></div>
+          <h3>Anti Telegram</h3><div class="aliases"><code>antitelegram</code><code>antgm</code><span class="arg">+ on / off</span></div><p>Configura la protección contra enlaces de Telegram.</p>
+        </article>
+<article class="cmd" data-cat="Grupo" data-search="Solo administradores Grupo Limita el uso a administradores. onlyadmins soloadmins on / off">
+          <div class="cmdtop"><div class="cmdicon">⌘</div><span class="tag">Grupo</span></div>
+          <h3>Solo administradores</h3><div class="aliases"><code>onlyadmins</code><code>soloadmins</code><span class="arg">+ on / off</span></div><p>Limita el uso a administradores.</p>
+        </article>
+<article class="cmd" data-cat="Grupo" data-search="Activar/desactivar NSFW Grupo Configura el modo NSFW. nsfw on / off">
+          <div class="cmdtop"><div class="cmdicon">⌘</div><span class="tag">Grupo</span></div>
+          <h3>Activar/desactivar NSFW</h3><div class="aliases"><code>nsfw</code><span class="arg">+ on / off</span></div><p>Configura el modo NSFW.</p>
+        </article>
+<article class="cmd" data-cat="Rankings" data-search="Top nivel Rankings Muestra el ranking de niveles. topnivel toplvl">
+          <div class="cmdtop"><div class="cmdicon">↗</div><span class="tag">Rankings</span></div>
+          <h3>Top nivel</h3><div class="aliases"><code>topnivel</code><code>toplvl</code></div><p>Muestra el ranking de niveles.</p>
+        </article>
+<article class="cmd" data-cat="Rankings" data-search="Top poder Rankings Muestra el ranking de poder. toppuff toppoder">
+          <div class="cmdtop"><div class="cmdicon">↗</div><span class="tag">Rankings</span></div>
+          <h3>Top poder</h3><div class="aliases"><code>toppuff</code><code>toppoder</code></div><p>Muestra el ranking de poder.</p>
+        </article>
+<article class="cmd" data-cat="Rankings" data-search="Top mascotas Rankings Muestra el ranking de mascotas. toppets topmascota">
+          <div class="cmdtop"><div class="cmdicon">↗</div><span class="tag">Rankings</span></div>
+          <h3>Top mascotas</h3><div class="aliases"><code>toppets</code><code>topmascota</code></div><p>Muestra el ranking de mascotas.</p>
+        </article>
+<article class="cmd" data-cat="Rankings" data-search="Top monedas Rankings Muestra el ranking de monedas. topcoins topmonedas">
+          <div class="cmdtop"><div class="cmdicon">↗</div><span class="tag">Rankings</span></div>
+          <h3>Top monedas</h3><div class="aliases"><code>topcoins</code><code>topmonedas</code></div><p>Muestra el ranking de monedas.</p>
+        </article>
+<article class="cmd" data-cat="Descargas" data-search="Audio o video de YouTube Descargas En pausa según la lista de comandos proporcionada. yt play audio">
+          <div class="cmdtop"><div class="cmdicon">⇩</div><span class="tag">Descargas</span></div>
+          <h3>Audio o video de YouTube</h3><div class="aliases"><code>yt</code><code>play</code><code>audio</code></div><p>En pausa según la lista de comandos proporcionada.</p>
+        </article>
+<article class="cmd" data-cat="Infobot" data-search="Información del bot Infobot Muestra información del bot. infobot botinfo">
+          <div class="cmdtop"><div class="cmdicon">◇</div><span class="tag">Infobot</span></div>
+          <h3>Información del bot</h3><div class="aliases"><code>infobot</code><code>botinfo</code></div><p>Muestra información del bot.</p>
+        </article>
+<article class="cmd" data-cat="Infobot" data-search="Link de invitación Infobot Muestra el enlace de invitación. invit linkgp">
+          <div class="cmdtop"><div class="cmdicon">◇</div><span class="tag">Infobot</span></div>
+          <h3>Link de invitación</h3><div class="aliases"><code>invit</code><code>linkgp</code></div><p>Muestra el enlace de invitación.</p>
+        </article>
+<article class="cmd" data-cat="Infobot" data-search="Salir del grupo Infobot Hace que el bot salga del grupo. salir leave">
+          <div class="cmdtop"><div class="cmdicon">◇</div><span class="tag">Infobot</span></div>
+          <h3>Salir del grupo</h3><div class="aliases"><code>salir</code><code>leave</code></div><p>Hace que el bot salga del grupo.</p>
+        </article>
+<article class="cmd" data-cat="Infobot" data-search="Cerrar sesión Infobot Cierra la sesión del bot. logout cerrarsesion">
+          <div class="cmdtop"><div class="cmdicon">◇</div><span class="tag">Infobot</span></div>
+          <h3>Cerrar sesión</h3><div class="aliases"><code>logout</code><code>cerrarsesion</code></div><p>Cierra la sesión del bot.</p>
+        </article>
+<article class="cmd" data-cat="Infobot" data-search="Obtener código Infobot Solicita el código de vinculación. code codigo">
+          <div class="cmdtop"><div class="cmdicon">◇</div><span class="tag">Infobot</span></div>
+          <h3>Obtener código</h3><div class="aliases"><code>code</code><code>codigo</code></div><p>Solicita el código de vinculación.</p>
+        </article>
+<article class="cmd" data-cat="Infobot" data-search="QR del bot Infobot Muestra o solicita el QR de vinculación. qrcode qr">
+          <div class="cmdtop"><div class="cmdicon">◇</div><span class="tag">Infobot</span></div>
+          <h3>QR del bot</h3><div class="aliases"><code>qrcode</code><code>qr</code></div><p>Muestra o solicita el QR de vinculación.</p>
+        </article>
+<article class="cmd" data-cat="Infobot" data-search="Banner del bot Infobot Muestra el banner del bot. banner bannermenu">
+          <div class="cmdtop"><div class="cmdicon">◇</div><span class="tag">Infobot</span></div>
+          <h3>Banner del bot</h3><div class="aliases"><code>banner</code><code>bannermenu</code></div><p>Muestra el banner del bot.</p>
+        </article>
+<article class="cmd" data-cat="Infobot" data-search="Cambiar nombre del bot Infobot Cambia el nombre del bot. namebot setname">
+          <div class="cmdtop"><div class="cmdicon">◇</div><span class="tag">Infobot</span></div>
+          <h3>Cambiar nombre del bot</h3><div class="aliases"><code>namebot</code><code>setname</code></div><p>Cambia el nombre del bot.</p>
+        </article>
+<article class="cmd" data-cat="Infobot" data-search="Monedas del bot Infobot Consulta las monedas del bot. monedas botcoins">
+          <div class="cmdtop"><div class="cmdicon">◇</div><span class="tag">Infobot</span></div>
+          <h3>Monedas del bot</h3><div class="aliases"><code>monedas</code><code>botcoins</code></div><p>Consulta las monedas del bot.</p>
+        </article>
+<article class="cmd" data-cat="Útiles" data-search="Crear stickers Útiles Crea un sticker a partir de una imagen o video compatible. sticker s">
+          <div class="cmdtop"><div class="cmdicon">✧</div><span class="tag">Útiles</span></div>
+          <h3>Crear stickers</h3><div class="aliases"><code>sticker</code><code>s</code></div><p>Crea un sticker a partir de una imagen o video compatible.</p>
+        </article>
+<article class="cmd" data-cat="Útiles" data-search="Buscar imagen Útiles Busca imágenes. imagen image">
+          <div class="cmdtop"><div class="cmdicon">✧</div><span class="tag">Útiles</span></div>
+          <h3>Buscar imagen</h3><div class="aliases"><code>imagen</code><code>image</code></div><p>Busca imágenes.</p>
+        </article>
+<article class="cmd" data-cat="Útiles" data-search="Eliminar mensaje Útiles Elimina un mensaje. del delete">
+          <div class="cmdtop"><div class="cmdicon">✧</div><span class="tag">Útiles</span></div>
+          <h3>Eliminar mensaje</h3><div class="aliases"><code>del</code><code>delete</code></div><p>Elimina un mensaje.</p>
+        </article>
+<article class="cmd" data-cat="Útiles" data-search="Ver foto de perfil Útiles Muestra una foto de perfil. verfotoperfil pp">
+          <div class="cmdtop"><div class="cmdicon">✧</div><span class="tag">Útiles</span></div>
+          <h3>Ver foto de perfil</h3><div class="aliases"><code>verfotoperfil</code><code>pp</code></div><p>Muestra una foto de perfil.</p>
+        </article>
+<article class="cmd" data-cat="Config" data-search="Configuración del bot Config Muestra o modifica la configuración del bot. bots botconfig">
+          <div class="cmdtop"><div class="cmdicon">⚙</div><span class="tag">Config</span></div>
+          <h3>Configuración del bot</h3><div class="aliases"><code>bots</code><code>botconfig</code></div><p>Muestra o modifica la configuración del bot.</p>
+        </article>
+<article class="cmd" data-cat="Config" data-search="Estado del bot Config Consulta el estado del bot. status estado">
+          <div class="cmdtop"><div class="cmdicon">⚙</div><span class="tag">Config</span></div>
+          <h3>Estado del bot</h3><div class="aliases"><code>status</code><code>estado</code></div><p>Consulta el estado del bot.</p>
+        </article>
+<article class="cmd" data-cat="Config" data-search="Ping del bot Config Mide el tiempo de respuesta. ping speed">
+          <div class="cmdtop"><div class="cmdicon">⚙</div><span class="tag">Config</span></div>
+          <h3>Ping del bot</h3><div class="aliases"><code>ping</code><code>speed</code></div><p>Mide el tiempo de respuesta.</p>
+        </article>
+<article class="cmd" data-cat="Config" data-search="Reportar error Config Envía un reporte de error. report reportar bug">
+          <div class="cmdtop"><div class="cmdicon">⚙</div><span class="tag">Config</span></div>
+          <h3>Reportar error</h3><div class="aliases"><code>report</code><code>reportar</code><span class="arg">+ bug</span></div><p>Envía un reporte de error.</p>
+        </article>
+<article class="cmd" data-cat="Config" data-search="Términos y condiciones Config Muestra los términos y condiciones. terminos terms">
+          <div class="cmdtop"><div class="cmdicon">⚙</div><span class="tag">Config</span></div>
+          <h3>Términos y condiciones</h3><div class="aliases"><code>terminos</code><code>terms</code></div><p>Muestra los términos y condiciones.</p>
+        </article></div><div class="empty" id="empty">No se encontraron comandos con esa búsqueda. Prueba otro término.</div>
+<p class="note">¿QUÉ HACE ESPECIAL A Isekai?
+✧ Comandos fáciles de utilizar. ✧ Diversión para usuarios y grupos. ✧ Recompensas para quienes participan. ✧ Un sistema diseñado para hacer cada conversación más entretenida.</p></section>
+
+<section id="about" class="sectionhead" style="margin-top:36px">
+  <div>
+    <h2>Sobre este directorio</h2>
+
+    <p>» Asistentes asociados:</p>
+
+    <ul style="list-style:none; padding-left:0; margin-top:12px; line-height:1.9">
+      <li>» Zoro Zc MD</li>
+      <li>» Nicky MD</li>
+      <li>» Sorama MD</li>
+      <li>» Gawr Gura Chan</li>
+      <li>» Mizuki MD</li>
+      <li>» Kimiko MD</li>
+      <li>» Tamioka MD</li>
+      <li>» Jesi MD</li>
+    </ul>
+    </p>
+  </div>
+</section>
+
+</main>
+
+<div class="terms-modal" id="termsModal" role="dialog" aria-modal="true" aria-labelledby="termsTitle" aria-hidden="true">
+  <section class="terms-dialog" tabindex="-1">
+    <button type="button" class="terms-close" id="closeTerms" aria-label="Cerrar términos y condiciones">×</button>
+    <h2 id="termsTitle">Términos y condiciones</h2>
+    <p class="terms-intro"><strong>LEGIÓN AIKAS × Isekai</strong><br>Lee estas condiciones antes de utilizar el bot. El uso de Isekai implica la aceptación de estas reglas.</p>
+
+    <h3>1. Aceptación de los términos</h3>
+    <p>Al añadir, configurar o utilizar Isekai, aceptas estos términos y condiciones. Si no estás de acuerdo con ellos, debes dejar de utilizar el bot y sus funciones.</p>
+
+    <h3>2. Uso permitido</h3>
+    <p>Isekai está destinado al entretenimiento, la administración de grupos y el uso responsable de sus comandos. Debes utilizarlo respetando a otros usuarios, las reglas de WhatsApp y las normas de cada grupo.</p>
+
+    <h3>3. Usos prohibidos</h3>
+    <ul>
+      <li>No utilices el bot para acosar, amenazar, estafar, suplantar identidades o perjudicar a otras personas.</li>
+      <li>No envíes spam, contenido malicioso ni mensajes destinados a saturar el bot o los grupos.</li>
+      <li>No intentes vulnerar la seguridad, acceder sin autorización a datos, explotar errores ni interferir con el funcionamiento del servicio.</li>
+      <li>No utilices sus funciones para infringir las leyes aplicables o las políticas de WhatsApp.</li>
+    </ul>
+
+    <h3>4. Administración y sanciones</h3>
+    <p>Los administradores de Legión Aikas y el equipo responsable de Isekai pueden limitar comandos, retirar permisos o suspender el acceso cuando detecten abuso, incumplimiento de estas reglas o riesgos para el servicio. La medida dependerá de la gravedad y reiteración de la conducta.</p>
+
+    <h3>5. Economía virtual y minijuegos</h3>
+    <p>Las monedas, recompensas, personajes, objetos, niveles y demás elementos obtenidos mediante los sistemas del bot son virtuales y se utilizan dentro de sus funciones de entretenimiento. No tienen valor monetario real ni garantizan premios o pagos. El equipo puede corregir saldos, reiniciar datos o ajustar mecánicas si hay errores, abuso o cambios técnicos.</p>
+
+    <h3>6. Privacidad y datos</h3>
+    <p>El bot puede procesar la información necesaria para responder a comandos, administrar grupos y guardar el progreso o la configuración de sus funciones. No compartas información personal sensible mediante el bot. El acceso a los datos debe limitarse a las necesidades operativas y de moderación del servicio; aun así, no se puede garantizar que un sistema digital esté libre de riesgos.</p>
+
+    <h3>7. Disponibilidad y cambios técnicos</h3>
+    <p>Isekai se ofrece según su disponibilidad. Puede presentar interrupciones, errores, mantenimiento o cambios en sus comandos y funciones. No se garantiza un funcionamiento ininterrumpido ni que todas las funciones estén disponibles en todo momento.</p>
+
+    <h3>8. Propiedad y contenido</h3>
+    <p>Los nombres, diseños, textos, configuraciones y materiales propios de Isekai y Legión Aikas pertenecen a sus respectivos titulares o se utilizan con la autorización correspondiente. No debes presentarlos como propios ni redistribuir materiales protegidos sin permiso. El contenido enviado por los usuarios sigue siendo responsabilidad de quien lo publica.</p>
+
+    <h3>9. Responsabilidad del usuario</h3>
+    <p>Eres responsable de los comandos que ejecutes, de los mensajes que envíes y del uso que hagas de las funciones disponibles. Los administradores de grupos siguen siendo responsables de sus decisiones de moderación y de configurar el bot de forma adecuada.</p>
+
+    <h3>10. Modificaciones de los términos</h3>
+    <p>Legión Aikas puede actualizar estos términos para reflejar cambios en el bot, en sus funciones o en las normas aplicables. La versión publicada en esta página será la referencia vigente. Si continúas usando el bot después de una actualización, se entenderá que aceptas las condiciones revisadas.</p>
+
+    <h3>11. Contacto y soporte</h3>
+    <p>Si tienes dudas, detectas un error o necesitas informar de un posible abuso, contacta con los administradores oficiales de Legión Aikas por los canales que hayan habilitado. No compartas contraseñas, códigos de vinculación ni credenciales de sesión al solicitar ayuda.</p>
+
+    <div class="terms-footer">LEGIÓN AIKAS × Isekai · Uso responsable y respeto a la comunidad.</div>
+  </section>
+</div>
+
+<footer class="wrap footer"><div><strong>✦ Templo Aikas</strong> ·  © Templo Aikas Company Entertainment®</div></footer>
+<script>
+const search=document.getElementById('search'),cards=[...document.querySelectorAll('.cmd')],buttons=[...document.querySelectorAll('.filter')];let category='Todos';
+function filter(){const q=search.value.trim().toLocaleLowerCase('es');let n=0;cards.forEach(card=>{const ok=(category==='Todos'||card.dataset.cat===category)&&(card.dataset.search+' '+card.innerText).toLocaleLowerCase('es').includes(q);card.style.display=ok?'':'none';if(ok)n++});document.getElementById('resultCount').textContent=n+' comando'+(n===1?'':'s')+' visible'+(n===1?'':'s');document.getElementById('empty').style.display=n?'none':'block'}
+buttons.forEach(b=>b.addEventListener('click',()=>{category=b.dataset.cat;buttons.forEach(x=>x.classList.toggle('active',x===b));filter()}));search.addEventListener('input',filter);document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();search.focus()}if(e.key==='Escape'){search.value='';filter();search.blur()}});document.getElementById('total').textContent=cards.length;document.getElementById('categories').textContent=new Set(cards.map(c=>c.dataset.cat)).size;filter();
+
+const termsModal=document.getElementById('termsModal');
+const openTerms=document.getElementById('openTerms');
+const closeTerms=document.getElementById('closeTerms');
+function showTerms(){termsModal.classList.add('open');termsModal.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';closeTerms.focus()}
+function hideTerms(){termsModal.classList.remove('open');termsModal.setAttribute('aria-hidden','true');document.body.style.overflow='';openTerms.focus()}
+openTerms.addEventListener('click',showTerms);
+closeTerms.addEventListener('click',hideTerms);
+termsModal.addEventListener('click',e=>{if(e.target===termsModal)hideTerms()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&termsModal.classList.contains('open'))hideTerms()});
+
+</script></body></html>
